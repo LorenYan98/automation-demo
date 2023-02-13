@@ -8,8 +8,8 @@ export class CiCdAwsPipelineDemoStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const pipeline = new CodePipeline(this, 'Pipeline', {
-      pipelineName: 'TestPipeline',
+    const pipeline = new CodePipeline(this, 'CCPipeline', {
+      pipelineName: 'TCCPipeline',
       synth: new ShellStep('Synth', {
         input: CodePipelineSource.gitHub('beabetterdevv/ci-cd-aws-pipeline-demo', 'main'), //Remember to change 
         commands: ['npm ci', 
