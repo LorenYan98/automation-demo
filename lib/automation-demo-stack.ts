@@ -1,21 +1,34 @@
 import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-import { CodePipeline, CodePipelineSource, ShellStep, Step } from 'aws-cdk-lib/pipelines';
-import { ManualApprovalStep } from 'aws-cdk-lib/pipelines';
+import * as apigw from '@aws-cdk/aws-apigateway';
+import * as lambda from '@aws-cdk/aws-lambda';
+import { CfnOutput, Construct, Stack, StackProps } from '@aws-cdk/core';
+import * as path from 'path';
 
-export class AutomationDemoStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+export class AutomationDemoStack extends Stack {
+  /**
+   * The URL of the API Gateway endpoint, for use in the integ tests
+   */
+  public readonly urlOutput: CfnOutput;
+
+  constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    new CodePipeline(this, 'CCPipeline', {
-      pipelineName: 'TCCPipeline',
-      synth: new ShellStep('Synth', {
-        input: CodePipelineSource.gitHub('LorenYan98/automation-demo', 'main'), //Remember to change 
-        installCommands: ['npm i -g npm@latest'],
-        commands: ['npm ci', 
-                   'npm run build', 
-                   'npx cdk synth']
-      })
+    // The Lambda function that contains the functionality
+    const handler = new lambda.Function(this, 'Lambda', {
+      runtime: lambda.Runtime.NODEJS_12_X,
+      handler: 'handler.handler',
+      code: lambda.Code.fromAsset(path.resolve(__dirname, 'lambda')),
+    });
+    
+    // An API Gateway to make the Lambda web-accessible
+    const gw = new apigw.LambdaRestApi(this, 'Gateway', {
+      description: 'Endpoint for a simple Lambda-powered web service',
+      handler,
+    });
+
+    this.urlOutput = new CfnOutput(this, 'Url', {
+      value: gw.url,
     });
   }
+  
 }
