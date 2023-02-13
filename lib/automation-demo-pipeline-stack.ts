@@ -16,7 +16,7 @@ export class AutomationDemoPipelineStack extends Stack {
        synth: new ShellStep('Synth', {
          // Where the source can be found
          input: CodePipelineSource.gitHub('LorenYan98/automation-demo', 'main'),
-         
+         installCommands: ['npm i -g npm@latest'],
          // Install dependencies, build and run cdk synth
          commands: [
            'npm ci',
