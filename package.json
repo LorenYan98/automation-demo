@@ -1,8 +1,8 @@
 {
-  "name": "automation-demo",
+  "name": "ci-cd-aws-pipeline-demo",
   "version": "0.1.0",
   "bin": {
-    "automation-demo": "bin/automation-demo.js"
+    "ci-cd-aws-pipeline-demo": "bin/ci-cd-aws-pipeline-demo.js"
   },
   "scripts": {
     "build": "tsc",
