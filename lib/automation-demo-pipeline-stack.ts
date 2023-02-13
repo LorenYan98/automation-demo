@@ -1,6 +1,6 @@
 import { Construct, SecretValue, Stack, StackProps } from '@aws-cdk/core';
 import { CodePipeline, CodePipelineSource, ShellStep } from "@aws-cdk/pipelines";
-
+import { AutomationDemoStage } from './automation-demo-stage';
 
 export class AutomationDemoPipelineStack extends Stack {
 
@@ -25,6 +25,11 @@ export class AutomationDemoPipelineStack extends Stack {
          ],
        }),
     });
+
+    // This is where we add the application stages
+    pipeline.addStage(new AutomationDemoStage(this, 'PreProd', {
+      env: { account: '466040009172', region: 'us-west-2' }
+    }));
   }
   
 }
