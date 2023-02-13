@@ -11,6 +11,7 @@ export class AutomationDemoStack extends cdk.Stack {
       pipelineName: 'TCCPipeline',
       synth: new ShellStep('Synth', {
         input: CodePipelineSource.gitHub('LorenYan98/automation-demo', 'main'), //Remember to change 
+        installCommands: ['npm i -g npm@latest'],
         commands: ['npm ci', 
                    'npm run build', 
                    'npx cdk synth']
