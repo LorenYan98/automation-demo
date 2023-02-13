@@ -10,3 +10,5 @@ new AutomationDemoStack(app, 'AutomationDemoStack', {
     region: "us-west-2",
   }
 });
+
+app.synth();
