@@ -1,4 +1,3 @@
-import * as apigw from '@aws-cdk/aws-apigateway';
 
 import { LambdaRestApi} from 'aws-cdk-lib/aws-apigateway';
 import { Function, InlineCode, Runtime, Code} from 'aws-cdk-lib/aws-lambda';
