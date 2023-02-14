@@ -1,12 +1,20 @@
-import { Construct, SecretValue, Stack, StackProps } from '@aws-cdk/core';
-import { CodePipeline, CodePipelineSource, ShellStep } from "@aws-cdk/pipelines";
+// import { Construct, SecretValue, Stack, StackProps } from '@aws-cdk/core';
+
 import { AutomationDemoStage } from './automation-demo-stage';
+import { Stack, StackProps }from 'aws-cdk-lib';
+import { CodePipeline, CodePipelineSource, ShellStep } from 'aws-cdk-lib/pipelines';
+import {Repository} from "aws-cdk-lib/aws-codecommit";
+// import codepipeline = require('aws-cdk-lib/aws-codepipeline')
+import { Construct } from "constructs";
 
 export class AutomationDemoPipelineStack extends Stack {
 
 
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
+
+    const repo = Repository
+                  .fromRepositoryName(this, "WorkshopRepo", "WorkshopRepo" );
 
     const pipeline = new CodePipeline(this, 'Pipeline', {
       // The pipeline name

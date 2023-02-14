@@ -1,7 +1,9 @@
-import * as cdk from 'aws-cdk-lib';
 import * as apigw from '@aws-cdk/aws-apigateway';
-import * as lambda from '@aws-cdk/aws-lambda';
-import { CfnOutput, Construct, Stack, StackProps } from '@aws-cdk/core';
+
+import { LambdaRestApi} from 'aws-cdk-lib/aws-apigateway';
+import { Function, InlineCode, Runtime, Code} from 'aws-cdk-lib/aws-lambda';
+import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 import * as path from 'path';
 
 export class AutomationDemoStack extends Stack {
@@ -14,14 +16,14 @@ export class AutomationDemoStack extends Stack {
     super(scope, id, props);
 
     // The Lambda function that contains the functionality
-    const handler = new lambda.Function(this, 'Lambda', {
-      runtime: lambda.Runtime.NODEJS_12_X,
+    const handler = new Function(this, 'Lambda', {
+      runtime: Runtime.NODEJS_12_X,
       handler: 'handler.handler',
-      code: lambda.Code.fromAsset(path.resolve(__dirname, 'lambda')),
+      code: Code.fromAsset(path.resolve(__dirname, 'lambda')),
     });
-    
+
     // An API Gateway to make the Lambda web-accessible
-    const gw = new apigw.LambdaRestApi(this, 'Gateway', {
+    const gw = new LambdaRestApi(this, 'Gateway', {
       description: 'Endpoint for a simple Lambda-powered web service',
       handler,
     });
